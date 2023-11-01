@@ -14,7 +14,8 @@ class Announcement(
     val title: TitleAnnouncement? = null,
     @SerializedName("action_bar")
     val actionBar: String = "",
-    val sound: SoundAnnouncement? = null
+    val sound: SoundAnnouncement? = null,
+    val discord: Boolean = false,
 ) {
     fun sendAnnouncement(player: ServerPlayerEntity, group: AnnouncementGroup) {
         for (line in createAnnouncementMessage(player, group)) {
@@ -30,7 +31,7 @@ class Announcement(
         sound?.playSound(player)
     }
 
-    private fun createAnnouncementMessage(player: ServerPlayerEntity, group: AnnouncementGroup): List<Component> {
+    fun createAnnouncementMessage(player: ServerPlayerEntity, group: AnnouncementGroup): List<Component> {
         val announcement: MutableList<Component> = mutableListOf()
         if (group.formatting.isNotEmpty()) {
             for (formatLine in group.formatting) {
@@ -57,6 +58,39 @@ class Announcement(
         }
 
         return announcement
+    }
+
+    fun createAnnouncementMessage(group: AnnouncementGroup): List<String> {
+        val announcement: MutableList<String> = mutableListOf()
+        if (group.formatting.isNotEmpty()) {
+            for (formatLine in group.formatting) {
+                if (formatLine.contains("%message%")) {
+                    for (line in message) {
+                        announcement.add(
+                            Utils.stripText(
+                                formatLine.replace("%message%", line)
+                            )
+                        )
+                    }
+                } else {
+                    announcement.add(Utils.stripText(formatLine))
+                }
+            }
+        } else {
+            for (line in message) {
+                announcement.add(
+                    Utils.stripText(
+                        line
+                    )
+                )
+            }
+        }
+
+        return announcement
+    }
+
+    override fun toString(): String {
+        return "Announcement(message=$message, title=$title, actionBar='$actionBar', sound=$sound, discord=$discord)"
     }
 
     class TitleAnnouncement(
@@ -102,7 +136,4 @@ class Announcement(
 
     }
 
-    override fun toString(): String {
-        return "Announcement(message=$message, title=$title, actionBar='$actionBar', sound=$sound)"
-    }
 }

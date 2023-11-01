@@ -1,7 +1,9 @@
 package com.pokeskies.skiesannouncements.config
 
 import com.pokeskies.skiesannouncements.SkiesAnnouncements
+import com.pokeskies.skiesannouncements.config.discord.DiscordWebhook
 import com.pokeskies.skiesannouncements.config.requirements.Requirement
+import com.pokeskies.skiesannouncements.utils.Utils
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 
@@ -11,7 +13,7 @@ class AnnouncementGroup(
     val order: AnnouncementOrder = AnnouncementOrder.RANDOM,
     val formatting: List<String> = emptyList(),
     val requirements: Map<String, Requirement> = emptyMap(),
-    val discord: DiscordMessage = DiscordMessage(),
+    val discord: DiscordWebhook? = null,
     val announcements: HashMap<String, Announcement> = hashMapOf()
 ) {
     var remainingTime = -1
@@ -38,6 +40,8 @@ class AnnouncementGroup(
                 announcement.sendAnnouncement(player, this)
             }
         }
+
+        if (announcement.discord) discord?.sendWebhook(this, announcement)
     }
 
     private fun getAnnouncement(): Announcement {

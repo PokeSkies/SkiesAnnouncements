@@ -23,6 +23,20 @@ object Utils {
         return miniMessage.deserialize(text)
     }
 
+    fun stripText(text: String): String {
+        return miniMessage.stripTags(text)
+    }
+
+    fun unEscapeString(s: String): String {
+        val sb = java.lang.StringBuilder()
+        for (i in s.indices) when (s[i]) {
+            '\n' -> sb.append("\\n")
+            '\t' -> sb.append("\\t")
+            else -> sb.append(s[i])
+        }
+        return sb.toString()
+    }
+
     fun printDebug(message: String, bypassCheck: Boolean = false) {
         if (bypassCheck || SkiesAnnouncements.INSTANCE.configManager.config.debug)
             SkiesAnnouncements.LOGGER.info("[SkiesAnnouncements] DEBUG: $message")
@@ -34,6 +48,17 @@ object Utils {
 
     fun printInfo(message: String) {
         SkiesAnnouncements.LOGGER.info("[SkiesAnnouncements] $message")
+    }
+
+    inline fun <T> MutableList<T>.mapInPlace(mutator: (T)->T) {
+        val iterate = this.listIterator()
+        while (iterate.hasNext()) {
+            val oldValue = iterate.next()
+            val newValue = mutator(oldValue)
+            if (newValue !== oldValue) {
+                iterate.set(newValue)
+            }
+        }
     }
 
     // Thank you to Patbox for these wonderful serializers =)

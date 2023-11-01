@@ -3,6 +3,7 @@ package com.pokeskies.skiesannouncements
 import com.pokeskies.skiesannouncements.commands.BaseCommands
 import com.pokeskies.skiesannouncements.config.ConfigManager
 import com.pokeskies.skiesannouncements.placeholders.PlaceholderManager
+import com.pokeskies.skiesannouncements.utils.Utils
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -60,13 +61,14 @@ class SkiesAnnouncements : ModInitializer {
 
                 for ((id, group) in ConfigManager.GROUPS) {
                     if (!group.enabled) continue
-                    if (group.remainingTime-- <= 0) {
-                        group.remainingTime = group.interval
-
+                    if (--group.remainingTime <= 0) {
                         //  Mod loads or reloads set the timer to -1 initially, so as a workaround only announce if reached 0
                         if (group.remainingTime == 0) {
+                            Utils.printDebug("Sending out a random automated timer Announcement for group $id!")
                             group.broadcast()
                         }
+
+                        group.remainingTime = group.interval
                     }
                 }
             }
