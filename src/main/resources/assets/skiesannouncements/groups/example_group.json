@@ -1,0 +1,59 @@
+{
+  "enabled": true,
+  "interval": 30,
+  "order": "RANDOM",
+  "requirements": {
+    "permission_1": {
+      "type": "PERMISSION",
+      "permission": "test.permission"
+    },
+    "dimension_1": {
+      "type": "DIMENSION",
+      "id": "minecraft:overworld"
+    }
+  },
+  "formatting": [
+    "<red><b>! <red>Announcement <b>>> <gray>%message%"
+  ],
+  "discord": {
+    "webhook_url": "",
+    "title": "",
+    "description": "",
+    "color_hex": "",
+    "thumbnail_icon_url": "",
+    "footer_text": "",
+    "footer_icon_url": "",
+    "image_url": "",
+    "author_name": "",
+    "author_url": "",
+    "author_icon_url": "",
+    "url": ""
+  },
+  "announcements": {
+    "test": {
+      "message": [
+        "Chat Message Line 1",
+        "Chat Message Line 2",
+        "Chat Message Line 3"
+      ],
+      "title": {
+        "title": "Title Message",
+        "subtitle": "Subtitle Message",
+        "duration": 5,
+        "fade_in": 1,
+        "fade_out": 1
+      },
+      "action_bar": "Action Bar Message",
+      "sound": {
+        "sound": "minecraft:block.note_block.bell",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    },
+    "test_2": {
+      "message": [
+        "Chat Message Line 1"
+      ]
+    }
+  }
+}

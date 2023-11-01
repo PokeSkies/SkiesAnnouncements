@@ -1,0 +1,27 @@
+package com.pokeskies.skiesannouncements.config.requirements
+
+import com.pokeskies.skiesannouncements.utils.Utils
+import net.minecraft.server.network.ServerPlayerEntity
+
+abstract class Requirement(
+    val type: RequirementType? = null,
+    val comparison: ComparisonType = ComparisonType.EQUALS
+) {
+    abstract fun checkRequirements(player: ServerPlayerEntity): Boolean
+
+    open fun allowedComparisons(): List<ComparisonType> {
+        return emptyList()
+    }
+
+    fun checkComparison(): Boolean {
+        if (!allowedComparisons().contains(comparison)) {
+            Utils.printError("Error while executing a Requirement check! Comparison ${comparison.identifier} is not allowed: ${allowedComparisons().map { it.identifier }}")
+            return false
+        }
+        return true
+    }
+
+    override fun toString(): String {
+        return "Requirement(type=$type, comparison=$comparison)"
+    }
+}
