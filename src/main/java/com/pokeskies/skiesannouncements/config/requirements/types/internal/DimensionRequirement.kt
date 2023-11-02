@@ -4,6 +4,7 @@ import com.pokeskies.skiesannouncements.config.requirements.ComparisonType
 import com.pokeskies.skiesannouncements.config.requirements.Requirement
 import com.pokeskies.skiesannouncements.config.requirements.RequirementType
 import com.pokeskies.skiesannouncements.utils.Utils
+import me.lucko.fabric.api.permissions.v0.Permissions
 import net.minecraft.server.network.ServerPlayerEntity
 
 class DimensionRequirement(
@@ -17,7 +18,8 @@ class DimensionRequirement(
 
         Utils.printDebug("Checking a ${type?.identifier} Requirement with id='$id': $this")
 
-        return id.equals(player.world.registryKey.value.toString(), true)
+        val value = id.equals(player.world.registryKey.value.toString(), true)
+        return if (comparison == ComparisonType.NOT_EQUALS) !value else value
     }
 
     override fun allowedComparisons(): List<ComparisonType> {
