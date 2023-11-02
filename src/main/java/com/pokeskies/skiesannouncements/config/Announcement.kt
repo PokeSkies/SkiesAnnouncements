@@ -15,7 +15,7 @@ class Announcement(
     @SerializedName("action_bar")
     val actionBar: String = "",
     val sound: SoundAnnouncement? = null,
-    val discord: Boolean = false,
+    val discord: Boolean = true,
 ) {
     fun sendAnnouncement(player: ServerPlayerEntity, group: AnnouncementGroup) {
         for (line in createAnnouncementMessage(player, group)) {

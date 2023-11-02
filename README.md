@@ -15,6 +15,7 @@ More information on configuration can be found on the [Wiki](https://github.com/
 - Two different order modes, RANDOM and SEQUENTIAL
 - 2 requirement types *(for now)*
 - Placeholder support (Impactor and PlaceholderAPI)
+- Optionally send certain announcements through Discord Webhooks
 
 ## Installation
 1. Download the latest version of the mod from the Releases tab.
@@ -38,7 +39,6 @@ More information on configuration can be found on the [Wiki](https://github.com/
 
 
 ## Planned Features
-- Discord webhooks
 - Better/more debugging and error handling
 - More Requirement Types
     - **Please submit suggestions!**
