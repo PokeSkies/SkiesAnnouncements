@@ -3,7 +3,6 @@ package com.pokeskies.skiesannouncements.config
 import com.pokeskies.skiesannouncements.SkiesAnnouncements
 import com.pokeskies.skiesannouncements.config.discord.DiscordWebhook
 import com.pokeskies.skiesannouncements.config.requirements.Requirement
-import com.pokeskies.skiesannouncements.utils.Utils
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 

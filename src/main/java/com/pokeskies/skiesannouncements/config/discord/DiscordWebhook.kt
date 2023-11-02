@@ -5,7 +5,6 @@ import com.pokeskies.skiesannouncements.config.Announcement
 import com.pokeskies.skiesannouncements.config.AnnouncementGroup
 import com.pokeskies.skiesannouncements.utils.DiscordWebhookUtils
 import com.pokeskies.skiesannouncements.utils.Utils
-import java.awt.Color
 import java.io.IOException
 
 class DiscordWebhook(

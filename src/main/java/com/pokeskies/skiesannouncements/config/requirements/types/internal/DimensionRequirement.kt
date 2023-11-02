@@ -4,7 +4,6 @@ import com.pokeskies.skiesannouncements.config.requirements.ComparisonType
 import com.pokeskies.skiesannouncements.config.requirements.Requirement
 import com.pokeskies.skiesannouncements.config.requirements.RequirementType
 import com.pokeskies.skiesannouncements.utils.Utils
-import me.lucko.fabric.api.permissions.v0.Permissions
 import net.minecraft.server.network.ServerPlayerEntity
 
 class DimensionRequirement(

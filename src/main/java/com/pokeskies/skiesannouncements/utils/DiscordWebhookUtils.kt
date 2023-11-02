@@ -3,7 +3,6 @@ package com.pokeskies.skiesannouncements.utils
 import com.pokeskies.skiesannouncements.config.Announcement
 import com.pokeskies.skiesannouncements.config.AnnouncementGroup
 import com.pokeskies.skiesannouncements.config.discord.DiscordEmbed
-import com.pokeskies.skiesannouncements.utils.Utils.mapInPlace
 import java.io.IOException
 import java.lang.reflect.Array
 import java.net.URL
