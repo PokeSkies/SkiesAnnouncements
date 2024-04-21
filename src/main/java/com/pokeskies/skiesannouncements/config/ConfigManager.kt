@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.google.gson.stream.JsonReader
 import com.pokeskies.skiesannouncements.SkiesAnnouncements
+import com.pokeskies.skiesannouncements.config.requirements.ComparisonType
 import com.pokeskies.skiesannouncements.config.requirements.Requirement
 import com.pokeskies.skiesannouncements.config.requirements.RequirementType
 import com.pokeskies.skiesannouncements.utils.Utils
@@ -21,6 +22,7 @@ import java.nio.file.StandardCopyOption
 class ConfigManager(private val configDir: File) {
     lateinit var config: MainConfig
     var gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping()
+        .registerTypeAdapter(ComparisonType::class.java, ComparisonType.ComparisonTypeAdaptor())
         .registerTypeAdapter(Requirement::class.java, RequirementType.RequirementTypeAdaptor())
         .registerTypeAdapter(AnnouncementOrder::class.java, AnnouncementOrder.Adaptor())
         .registerTypeHierarchyAdapter(SoundEvent::class.java, Utils.RegistrySerializer(Registries.SOUND_EVENT))

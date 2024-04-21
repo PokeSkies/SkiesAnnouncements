@@ -11,6 +11,8 @@ group = project.properties["group"].toString()
 
 base.archivesBaseName = project.properties["mod_name"].toString()
 
+val minecraftVersion = project.properties["minecraft_version"].toString()
+
 repositories {
     mavenCentral()
     maven( "https://jitpack.io")
@@ -46,7 +48,7 @@ configurations {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:${project.properties["minecraft_version"].toString()}")
+    minecraft("com.mojang:minecraft:$minecraftVersion")
     mappings("net.fabricmc:yarn:${project.properties["yarn_mappings"].toString()}:v2")
     modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"].toString()}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${project.properties["fabric_kotlin_version"].toString()}")
@@ -64,6 +66,10 @@ dependencies {
     modImplementation("net.impactdev.impactor.api:text:5.1.1-SNAPSHOT")
 
     modImplementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+}
+
+tasks.remapJar {
+    archiveFileName.set("${project.name}-fabric-$minecraftVersion-${project.version}.jar")
 }
 
 tasks.processResources {
