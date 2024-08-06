@@ -8,19 +8,19 @@ import com.pokeskies.skiesannouncements.utils.Utils
 import me.lucko.fabric.api.permissions.v0.Permissions
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.commands.CommandSourceStack
+import net.minecraft.commands.Commands
 
 class ListCommand : SubCommand {
-    override fun build(): LiteralCommandNode<ServerCommandSource> {
-        return CommandManager.literal("list")
+    override fun build(): LiteralCommandNode<CommandSourceStack> {
+        return Commands.literal("list")
             .requires(Permissions.require("skiesannouncements.command.list", 4))
             .executes(Companion::list)
             .build()
     }
 
     companion object {
-        fun list(ctx: CommandContext<ServerCommandSource>): Int {
+        fun list(ctx: CommandContext<CommandSourceStack>): Int {
             if (ConfigManager.GROUPS.isEmpty()) {
                 ctx.source.sendMessage(Utils.deserializeText("<red>There are no Announcement Groups!"))
                 return 1

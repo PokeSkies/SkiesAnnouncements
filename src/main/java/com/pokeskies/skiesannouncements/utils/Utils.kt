@@ -6,16 +6,15 @@ import com.mojang.serialization.JsonOps
 import com.pokeskies.skiesannouncements.SkiesAnnouncements
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
-import net.minecraft.registry.Registry
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import java.lang.reflect.Type
-
 
 object Utils {
     private val miniMessage: MiniMessage = MiniMessage.miniMessage()
 
-    fun parsePlaceholders(player: ServerPlayerEntity, text: String): String {
+    fun parsePlaceholders(player: ServerPlayer, text: String): String {
         return SkiesAnnouncements.INSTANCE.placeholderManager.parse(player, text)
     }
 
@@ -65,7 +64,7 @@ object Utils {
     data class RegistrySerializer<T>(val registry: Registry<T>) : JsonSerializer<T>, JsonDeserializer<T> {
         @Throws(JsonParseException::class)
         override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): T? {
-            var parsed = if (json.isJsonPrimitive) registry.get(Identifier.tryParse(json.asString)) else null
+            var parsed = if (json.isJsonPrimitive) registry.get(ResourceLocation.parse(json.asString)) else null
             if (parsed == null)
                 printError("There was an error while deserializing a Registry Type: $registry")
             return parsed
@@ -79,7 +78,7 @@ object Utils {
         @Throws(JsonParseException::class)
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): T? {
             return try {
-                codec.decode(JsonOps.INSTANCE, json).getOrThrow(false) { }.first
+                codec.decode(JsonOps.INSTANCE, json).orThrow.first
             } catch (e: Throwable) {
                 printError("There was an error while deserializing a Codec: $codec")
                 null
@@ -89,7 +88,7 @@ object Utils {
         override fun serialize(src: T?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
             return try {
                 if (src != null)
-                    codec.encodeStart(JsonOps.INSTANCE, src).getOrThrow(false) { }
+                    codec.encodeStart(JsonOps.INSTANCE, src).orThrow
                 else
                     JsonNull.INSTANCE
             } catch (e: Throwable) {

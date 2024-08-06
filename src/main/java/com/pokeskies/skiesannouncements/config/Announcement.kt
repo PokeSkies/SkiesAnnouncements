@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 import com.pokeskies.skiesannouncements.utils.Utils
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.Title
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
 import java.time.Duration
 
 class Announcement(
@@ -17,7 +17,7 @@ class Announcement(
     val sound: SoundAnnouncement? = null,
     val discord: Boolean = true,
 ) {
-    fun sendAnnouncement(player: ServerPlayerEntity, group: AnnouncementGroup) {
+    fun sendAnnouncement(player: ServerPlayer, group: AnnouncementGroup) {
         for (line in createAnnouncementMessage(player, group)) {
             player.sendMessage(line)
         }
@@ -31,7 +31,7 @@ class Announcement(
         sound?.playSound(player)
     }
 
-    fun createAnnouncementMessage(player: ServerPlayerEntity, group: AnnouncementGroup): List<Component> {
+    fun createAnnouncementMessage(player: ServerPlayer, group: AnnouncementGroup): List<Component> {
         val announcement: MutableList<Component> = mutableListOf()
         if (group.formatting.isNotEmpty()) {
             for (formatLine in group.formatting) {
@@ -100,7 +100,7 @@ class Announcement(
         val fadeIn: Long = 1,
         val fadeOut: Long = 1,
     ) {
-        fun sendTitle(player: ServerPlayerEntity) {
+        fun sendTitle(player: ServerPlayer) {
             player.showTitle(
                 Title.title(
                     Utils.deserializeText(Utils.parsePlaceholders(player, title)),
@@ -122,12 +122,12 @@ class Announcement(
         val volume: Float = 1F,
         val pitch: Float = 1F,
     ) {
-        fun playSound(player: ServerPlayerEntity) {
+        fun playSound(player: ServerPlayer) {
             if (sound == null) {
                 Utils.printError("There was an error while executing a Sound Announcement for player ${player.name}: Sound was somehow null?")
                 return
             }
-            player.playSound(sound, SoundCategory.MASTER, volume, pitch)
+            player.playNotifySound(sound, SoundSource.MASTER, volume, pitch)
         }
 
         override fun toString(): String {
