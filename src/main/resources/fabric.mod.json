@@ -9,7 +9,7 @@
     "repo": "https://github.com/PokeSkies/SkiesAnnouncements"
   },
   "license": "All-Rights-Reserved",
-  "environment": "server",
+  "environment": "*",
   "entrypoints": {
     "main": [
       "com.pokeskies.skiesannouncements.SkiesAnnouncements"
