@@ -7,25 +7,25 @@ import com.pokeskies.skiesannouncements.config.ConfigManager
 import com.pokeskies.skiesannouncements.utils.SubCommand
 import com.pokeskies.skiesannouncements.utils.Utils
 import me.lucko.fabric.api.permissions.v0.Permissions
-import net.minecraft.command.CommandSource
-import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.commands.CommandSourceStack
+import net.minecraft.commands.Commands
+import net.minecraft.commands.SharedSuggestionProvider
+import net.minecraft.commands.arguments.EntityArgument
 
 class SendCommand : SubCommand {
-    override fun build(): LiteralCommandNode<ServerCommandSource> {
-        return CommandManager.literal("send")
+    override fun build(): LiteralCommandNode<CommandSourceStack> {
+        return Commands.literal("send")
             .requires(Permissions.require("skiesannouncements.command.send", 4))
-            .then(CommandManager.argument("player", EntityArgumentType.players())
-                .then(CommandManager.argument("group", StringArgumentType.string())
+            .then(Commands.argument("player", EntityArgument.players())
+                .then(Commands.argument("group", StringArgumentType.string())
                     .suggests { _, builder ->
-                        CommandSource.suggestMatching(ConfigManager.GROUPS.keys.stream(), builder)
+                        SharedSuggestionProvider.suggest(ConfigManager.GROUPS.keys.stream(), builder)
                     }
                     .then(
-                        CommandManager.argument("id", StringArgumentType.string())
+                        Commands.argument("id", StringArgumentType.string())
                             .suggests { ctx, builder ->
                                 val groupId = StringArgumentType.getString(ctx, "group")
-                                CommandSource.suggestMatching(
+                                SharedSuggestionProvider.suggest(
                                     ConfigManager.GROUPS[groupId]?.announcements?.keys ?: emptyList(),
                                     builder
                                 )
@@ -39,7 +39,7 @@ class SendCommand : SubCommand {
     }
 
     companion object {
-        fun announce(ctx: CommandContext<ServerCommandSource>): Int {
+        fun announce(ctx: CommandContext<CommandSourceStack>): Int {
             val groupId = StringArgumentType.getString(ctx, "group")
 
             val group = ConfigManager.GROUPS[groupId]
@@ -50,7 +50,7 @@ class SendCommand : SubCommand {
                 return 1
             }
 
-            val players = EntityArgumentType.getPlayers(ctx, "player")
+            val players = EntityArgument.getPlayers(ctx, "player")
 
             ctx.source.sendMessage(
                 Utils.deserializeText("<green>Broadcasting an Announcement from the group $groupId to ${players.size} player(s)!")
@@ -60,7 +60,7 @@ class SendCommand : SubCommand {
             return 1
         }
 
-        fun announceSpecific(ctx: CommandContext<ServerCommandSource>): Int {
+        fun announceSpecific(ctx: CommandContext<CommandSourceStack>): Int {
             val groupId = StringArgumentType.getString(ctx, "group")
 
             val group = ConfigManager.GROUPS[groupId]
@@ -80,7 +80,7 @@ class SendCommand : SubCommand {
                 return 1
             }
 
-            val players = EntityArgumentType.getPlayers(ctx, "player")
+            val players = EntityArgument.getPlayers(ctx, "player")
 
             ctx.source.sendMessage(
                 Utils.deserializeText("<green>Broadcasting the Announcement $announcementId from the group $groupId to ${players.size} player(s)!")

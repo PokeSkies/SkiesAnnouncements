@@ -3,7 +3,7 @@ package com.pokeskies.skiesannouncements.config
 import com.pokeskies.skiesannouncements.SkiesAnnouncements
 import com.pokeskies.skiesannouncements.config.discord.DiscordWebhook
 import com.pokeskies.skiesannouncements.config.requirements.Requirement
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import java.util.*
 
 class AnnouncementGroup(
@@ -25,15 +25,15 @@ class AnnouncementGroup(
         broadcast(getAnnouncement())
     }
 
-    fun broadcast(players: List<ServerPlayerEntity>) {
+    fun broadcast(players: List<ServerPlayer>) {
         broadcast(getAnnouncement(), players)
     }
 
     fun broadcast(announcement: Announcement) {
-        broadcast(announcement, SkiesAnnouncements.INSTANCE.server?.playerManager?.playerList ?: emptyList())
+        broadcast(announcement, SkiesAnnouncements.INSTANCE.server?.playerList?.players ?: emptyList())
     }
 
-    fun broadcast(announcement: Announcement, players: List<ServerPlayerEntity>) {
+    fun broadcast(announcement: Announcement, players: List<ServerPlayer>) {
         for (player in players) {
             if (checkRequirements(player)) {
                 announcement.sendAnnouncement(player, this)
@@ -55,7 +55,7 @@ class AnnouncementGroup(
         }
     }
 
-    private fun checkRequirements(player: ServerPlayerEntity): Boolean {
+    private fun checkRequirements(player: ServerPlayer): Boolean {
         for (requirement in requirements) {
             if (!requirement.value.checkRequirements(player))
                 return false

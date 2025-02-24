@@ -1,7 +1,7 @@
 # SkiesAnnouncements
 <img height="50" src="https://camo.githubusercontent.com/a94064bebbf15dfed1fddf70437ea2ac3521ce55ac85650e35137db9de12979d/68747470733a2f2f692e696d6775722e636f6d2f6331444839564c2e706e67" alt="Requires Fabric Kotlin"/>
 
-A Fabric (1.20.1) server-sided automated announcements mod! Send pre-defined announcements in a variety of forms with various requirements to online players.
+A Fabric server-sided automated announcements mod! Send pre-defined announcements in a variety of forms with various requirements to online players.
 
 More information on configuration can be found on the [Wiki](https://github.com/PokeSkies/SkiesAnnouncements/wiki)!
 

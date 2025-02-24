@@ -11,13 +11,12 @@ import com.pokeskies.skiesannouncements.config.requirements.ComparisonType
 import com.pokeskies.skiesannouncements.config.requirements.Requirement
 import com.pokeskies.skiesannouncements.config.requirements.RequirementType
 import com.pokeskies.skiesannouncements.utils.Utils
-import net.minecraft.registry.Registries
-import net.minecraft.sound.SoundEvent
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.sounds.SoundEvent
 import java.io.*
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
-
 
 class ConfigManager(private val configDir: File) {
     lateinit var config: MainConfig
@@ -25,7 +24,7 @@ class ConfigManager(private val configDir: File) {
         .registerTypeAdapter(ComparisonType::class.java, ComparisonType.ComparisonTypeAdaptor())
         .registerTypeAdapter(Requirement::class.java, RequirementType.RequirementTypeAdaptor())
         .registerTypeAdapter(AnnouncementOrder::class.java, AnnouncementOrder.Adaptor())
-        .registerTypeHierarchyAdapter(SoundEvent::class.java, Utils.RegistrySerializer(Registries.SOUND_EVENT))
+        .registerTypeHierarchyAdapter(SoundEvent::class.java, Utils.RegistrySerializer(BuiltInRegistries.SOUND_EVENT))
         .create()
 
     companion object {
